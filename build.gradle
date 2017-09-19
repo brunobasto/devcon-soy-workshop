@@ -1,0 +1,8 @@
+plugins {
+	id "nebula.provided-base" version "3.1.0"
+}
+
+allprojects {
+	apply plugin: 'eclipse'
+	apply plugin: 'nebula.provided-base'
+}

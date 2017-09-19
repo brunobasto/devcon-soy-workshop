@@ -1,0 +1,7 @@
+Bundle-Name: devcon-blogs-web
+Bundle-SymbolicName: blogs.web
+Bundle-Version: 1.0.0
+Include-Resource: package.json
+Require-Capability:\
+	soy;\
+		filter:="(type=metal)"
