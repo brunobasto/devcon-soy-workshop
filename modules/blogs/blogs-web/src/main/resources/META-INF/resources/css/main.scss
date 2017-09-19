@@ -1,0 +1,29 @@
+.devcon-blogs-portlet {
+	.toolbar {
+		margin-bottom: 20px;
+
+		.toolbar-group-content {
+			margin-right: 10px;
+
+			.disabled {
+				color: #CCCCC;
+			}
+		}
+	}
+
+	.card {
+		.delete {
+			background-color: transparent;
+			display: none;
+			font-size: 30px;
+			padding: 5px;
+			position: absolute;
+			right: 0;
+			top:0;
+		}
+
+		&:hover .delete {
+			display: block;
+		}
+	}
+}
