@@ -4,21 +4,28 @@
  * Prints the blog form.
  */
 {template .render}
+	{@param editMode: bool}
 	{@param id: string}
 	{@param saveBlogUrl: string}
+	{@param? content: string}
+	{@param? title: string}
 
 	<div id="{$id}">
 		<form action="{$saveBlogUrl}" enctype="multipart/form-data" method="POST">
 			<label>
 				Title
-				<input name="{$ij.portletNamespace}title" />
+				<input name="{$ij.portletNamespace}title" value="{$title ?: ''}" />
 			</label>
 			<label>
 				Content
-				<input name="{$ij.portletNamespace}content" />
+				<input name="{$ij.portletNamespace}content" value="{$content ?: ''}" />
 			</label>
 			<button class="btn btn-primary" type="submit">
-				Add
+				{if $editMode}
+					Edit
+				{else}
+					Add
+				{/if}
 			</button>
 		</form>
 	</div>
