@@ -1,0 +1,25 @@
+{namespace Edit}
+
+/**
+ * Prints the blog form.
+ */
+{template .render}
+	{@param id: string}
+	{@param saveBlogUrl: string}
+
+	<div id="{$id}">
+		<form action="{$saveBlogUrl}" enctype="multipart/form-data" method="POST">
+			<label>
+				Title
+				<input name="{$ij.portletNamespace}title" />
+			</label>
+			<label>
+				Content
+				<input name="{$ij.portletNamespace}content" />
+			</label>
+			<button class="btn btn-primary" type="submit">
+				Add
+			</button>
+		</form>
+	</div>
+{/template}
