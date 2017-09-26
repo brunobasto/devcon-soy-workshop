@@ -96,6 +96,14 @@ public class BlogsWebViewMVCRenderCommand implements MVCRenderCommand {
 			pe.printStackTrace();
 		}
 
+		PortletURL editBlogUrl = renderResponse.createRenderURL();
+
+		editBlogUrl.setParameter("mvcRenderCommandName", "Edit");
+		editBlogUrl.setParameter(
+			"blogEntryId", String.valueOf(blog.getEntryId()));
+
+		blogTemplateContext.put("editUrl", editBlogUrl.toString());
+
 		blogTemplateContext.put("title", blog.getTitle());
 
 		return blogTemplateContext;
