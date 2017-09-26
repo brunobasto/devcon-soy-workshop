@@ -4,6 +4,7 @@
  * Prints a list of saved blogs.
  */
 {template .render}
+	{@param addBlogUrl: string}
 	{@param id: string}
 	{@param blogs: list<[
 		authorEmail: string,
@@ -30,6 +31,9 @@
 						There are no Blogs to display.
 					</div>
 			{/foreach}
+		</div>
+		<div class="button-row">
+			<a class="btn btn-primary" href="{$addBlogUrl}">Add a Blog</a>
 		</div>
 	</div>
 {/template}
