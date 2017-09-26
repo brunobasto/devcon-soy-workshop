@@ -14,12 +14,24 @@
 
 package blogs.web.portlet.action;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
+import com.liferay.blogs.kernel.model.BlogsEntry;
+import com.liferay.blogs.kernel.service.BlogsEntryLocalService;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.template.Template;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -45,10 +57,47 @@ public class BlogsWebViewMVCRenderCommand implements MVCRenderCommand {
 		Template template = (Template)renderRequest.getAttribute(
 			WebKeys.TEMPLATE);
 
-		// TODO: Lets do something with the template
+		List<BlogsEntry> blogs = _blogsEntryLocalService.getBlogsEntries(
+			QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
+		template.put(
+			"blogs",
+			blogs
+				.stream()
+				.map(blog -> _blogMapper(blog, renderResponse))
+				.collect(Collectors.toList()));
+		
 		// Dispatch to the View soy namespace
 		return "View";
 	}
+
+	private Map<String, Object> _blogMapper(
+		BlogsEntry blog, RenderResponse renderResponse) {
+
+		Map<String, Object> blogTemplateContext = new HashMap<>();
+
+		long userId = blog.getUserId();
+
+		try {
+			User author = _userLocalService.getUserById(userId);
+
+			blogTemplateContext.put("authorEmail", author.getEmailAddress());
+			blogTemplateContext.put("authorInitials", author.getInitials());
+			blogTemplateContext.put("authorName", author.getFullName());
+		}
+		catch (PortalException pe) {
+			pe.printStackTrace();
+		}
+
+		blogTemplateContext.put("title", blog.getTitle());
+
+		return blogTemplateContext;
+	}
+
+	@Reference
+	private BlogsEntryLocalService _blogsEntryLocalService;
+
+	@Reference
+	private UserLocalService _userLocalService;
 
 }
