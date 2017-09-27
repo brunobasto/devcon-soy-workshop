@@ -10,6 +10,7 @@
 		authorEmail: string,
 		authorInitials: string,
 		authorName: string,
+		deleteUrl: string,
 		editUrl: string,
 		image: string,
 		title: string
@@ -37,6 +38,7 @@
 					<div class="col-md-12">
 						{call .largeBlogCard}
 							{param authorName: $blog.authorName /}
+							{param deleteUrl: $blog.deleteUrl /}
 							{param editUrl: $blog.editUrl /}
 							{param image: $blog.image /}
 							{param title: $blog.title /}
@@ -48,6 +50,7 @@
 							{param authorEmail: $blog.authorEmail /}
 							{param authorInitials: $blog.authorInitials /}
 							{param authorName: $blog.authorName /}
+							{param deleteUrl: $blog.deleteUrl /}
 							{param editUrl: $blog.editUrl /}
 							{param image: $blog.image /}
 							{param title: $blog.title /}
@@ -73,6 +76,7 @@
 	{@param authorEmail: string}
 	{@param authorInitials: string}
 	{@param authorName: string}
+	{@param deleteUrl: string}
 	{@param editUrl: string}
 	{@param title: string}
 	{@param? image: string}
@@ -91,6 +95,9 @@
 			<h5 class="text-default" style="margin-top:0;">{$authorEmail}</h5>
 			<p>{$title}</p>
 		</a>
+		{call .deleteButton}
+			{param deleteUrl: $deleteUrl /}
+		{/call}
 	</div>
 {/template}
 
@@ -99,11 +106,15 @@
  */
 {template .largeBlogCard}
 	{@param authorName: string}
+	{@param deleteUrl: string}
 	{@param editUrl: string}
 	{@param title: string}
 	{@param? image: string}
 
 	<div class="card card-horizontal">
+		{call .deleteButton}
+			{param deleteUrl: $deleteUrl /}
+		{/call}
 		<div class="card-row card-row-padded">
 			{if $image}
 				<div class="card-col-field">
@@ -119,4 +130,17 @@
 			</div>
 		</div>
 	</div>
+{/template}
+
+/**
+ * Prints the delete button
+ */
+{template .deleteButton}
+	{@param deleteUrl: string}
+
+	<form action="{$deleteUrl}" method="POST" enctype="multipart/form-data">
+		<button class="btn delete" type="submit">
+			<span class="icon-trash"></span>
+		</button>
+	</form>
 {/template}
