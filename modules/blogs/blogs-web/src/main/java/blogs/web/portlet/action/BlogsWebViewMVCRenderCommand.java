@@ -67,6 +67,8 @@ public class BlogsWebViewMVCRenderCommand implements MVCRenderCommand {
 				.stream()
 				.map(blog -> _blogMapper(blog, renderResponse))
 				.collect(Collectors.toList()));
+		
+		template.put("displayStyle", "cards");
 
 		PortletURL addBlogUrl = renderResponse.createRenderURL();
 

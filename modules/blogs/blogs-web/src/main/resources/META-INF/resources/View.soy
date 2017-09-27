@@ -14,20 +14,46 @@
 		image: string,
 		title: string
 	]>}
+	{@param? displayStyle: string}
 
 	<div id="{$id}">
+		<div class="toolbar">
+			<div class="toolbar-group-right">
+				<span class="toolbar-group-content">
+					<a data-onclick="showCards" href="javascript:;">
+						<span aria-hidden="true" class="{if $displayStyle == 'cards'}disabled{/if} icon-th-large"></span>
+					</a>
+				</span>
+				<span class="toolbar-group-content">
+					<a data-onclick="showList" href="javascript:;">
+						<span aria-hidden="true" class="{if $displayStyle == 'list'}disabled{/if} icon-th-list"></span>
+					</a>
+				</span>
+			</div>
+		</div>
 		<div class="row">
 			{foreach $blog in $blogs}
-				<div class="col-md-3">
-					{call .blogCard}
-						{param authorEmail: $blog.authorEmail /}
-						{param authorInitials: $blog.authorInitials /}
-						{param authorName: $blog.authorName /}
-						{param editUrl: $blog.editUrl /}
-						{param image: $blog.image /}
-						{param title: $blog.title /}
-					{/call}
-				</div>
+				{if $displayStyle == 'list'}
+					<div class="col-md-12">
+						{call .largeBlogCard}
+							{param authorName: $blog.authorName /}
+							{param editUrl: $blog.editUrl /}
+							{param image: $blog.image /}
+							{param title: $blog.title /}
+						{/call}
+					</div>
+				{else}
+					<div class="col-md-4">
+						{call .blogCard}
+							{param authorEmail: $blog.authorEmail /}
+							{param authorInitials: $blog.authorInitials /}
+							{param authorName: $blog.authorName /}
+							{param editUrl: $blog.editUrl /}
+							{param image: $blog.image /}
+							{param title: $blog.title /}
+						{/call}
+					</div>
+				{/if}
 				{ifempty}
 					<div class="alert alert-default">
 						There are no Blogs to display.
@@ -65,5 +91,32 @@
 			<h5 class="text-default" style="margin-top:0;">{$authorEmail}</h5>
 			<p>{$title}</p>
 		</a>
+	</div>
+{/template}
+
+/**
+ * Prints one blog card.
+ */
+{template .largeBlogCard}
+	{@param authorName: string}
+	{@param editUrl: string}
+	{@param title: string}
+	{@param? image: string}
+
+	<div class="card card-horizontal">
+		<div class="card-row card-row-padded">
+			{if $image}
+				<div class="card-col-field">
+					<img alt="thumbnail" src="{$image}" style="width: 121px;">
+				</div>
+			{/if}
+
+			<div class="card-col-content card-col-gutters">
+				<a href="{$editUrl}">
+					<h4>{$authorName}</h4>
+					<p>{$title}</p>
+				</a>
+			</div>
+		</div>
 	</div>
 {/template}
