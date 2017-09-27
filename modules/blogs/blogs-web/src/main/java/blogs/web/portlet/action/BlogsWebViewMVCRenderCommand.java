@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.portlet.ActionRequest;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -105,6 +106,14 @@ public class BlogsWebViewMVCRenderCommand implements MVCRenderCommand {
 			"blogEntryId", String.valueOf(blog.getEntryId()));
 
 		blogTemplateContext.put("editUrl", editBlogUrl.toString());
+
+		PortletURL deleteBlogUrl = renderResponse.createActionURL();
+
+		deleteBlogUrl.setParameter(ActionRequest.ACTION_NAME, "Delete");
+		deleteBlogUrl.setParameter(
+			"blogEntryId", String.valueOf(blog.getEntryId()));
+
+		blogTemplateContext.put("deleteUrl", deleteBlogUrl.toString());
 
 		blogTemplateContext.put("title", blog.getTitle());
 
